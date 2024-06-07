@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Agenda</string>
+    <string name="usuario">Usuario</string>
+    <string name="password">Password</string>
+    <string name="botonLogin">Conectarse</string>
+</resources>
