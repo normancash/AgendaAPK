@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,6 +36,8 @@ import com.uam.agenda.viewmodel.LoginViewModel
 fun LoginApp(loginViewModel: LoginViewModel, innerPadding: Modifier) {
     val localContext = LocalContext.current
 
+    val state = loginViewModel.state
+
     var passwordVisible by remember {
         mutableStateOf(false)
     }
@@ -44,25 +47,31 @@ fun LoginApp(loginViewModel: LoginViewModel, innerPadding: Modifier) {
                 else
                     painterResource(id = R.drawable.visibility_off)
 
+    LaunchedEffect(key1 = state.mensaje)
+    {
+        if (!state.mensaje.isNullOrBlank()) {
+            Toast.makeText(localContext, state.mensaje, Toast.LENGTH_LONG).show()
+        }
+    }
 
     Column(modifier=Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
         , verticalArrangement = Arrangement.Center){
        Image(painter = painterResource(id = R.drawable.usuario)
            , contentDescription = null)
        Spacer(modifier = Modifier.height(5.dp))
-       TextField(value=loginViewModel.usuario,
+       TextField(value=state.usuario,
            onValueChange = {loginViewModel.onUsuario(it)}
            ,label={
            Text(text= stringResource(id = R.string.usuario))})
         Spacer(modifier = Modifier.height(5.dp))
-        TextField(value=loginViewModel.password,
+        TextField(value=state.password,
             onValueChange = {loginViewModel.onPassword(it)}
             ,label={
                 Text(text= stringResource(id = R.string.password))}
             , keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
             , trailingIcon = {
                 val descripcion = if (passwordVisible) "Password oculto" else "Mostrar Password"
-                IconButton(onClick = {passwordVisible != passwordVisible }) {
+                IconButton(onClick = {passwordVisible = !passwordVisible }) {
                      Icon(painter= image,descripcion)
                 }
             }

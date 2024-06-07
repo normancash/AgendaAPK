@@ -9,32 +9,38 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
-    var usuario : String by mutableStateOf("")
-    var password: String by mutableStateOf("")
-    var error : Boolean by mutableStateOf(false)
-    var mensaje : String by mutableStateOf("")
+
+    var state by mutableStateOf(LoginState())
+        private set
 
     fun onUsuario(usuario: String) {
-        this.usuario = usuario;
+        state = state.copy(usuario = usuario)
     }
     fun onPassword(password : String) {
-        this.password = password;
+        state = state.copy(password = password)
     }
 
     fun onLogin() {
         viewModelScope.launch{
-            if (!(usuario.equals("admin")) ||
-                    !(password.equals("123"))) {
-                error = true;
-                mensaje="Usuario incorrecto"
+            if (!(state.usuario.equals("admin")) ||
+                    !(state.password.equals("123"))) {
+                state.copy(
+                    error = true,mensaje="Usuario Incorrecto"
+                )
             }
             else {
-                error = false
-                mensaje = "Usuario correcto"
+                state.copy(
+                    error = false,mensaje = "Usuario correcto"
+                )
             }
         }
-        println(mensaje)
     }
 
+    data class LoginState(
+        val usuario: String = "",
+        val password: String = "",
+        val error:Boolean=false,
+        val mensaje:String = ""
+    )
 
 }
