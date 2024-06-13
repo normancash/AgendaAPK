@@ -36,7 +36,7 @@ import com.uam.agenda.viewmodel.LoginViewModel
 fun LoginApp(loginViewModel: LoginViewModel, innerPadding: Modifier) {
     val localContext = LocalContext.current
 
-    val state = loginViewModel.state
+    val state = loginViewModel._state
 
     var passwordVisible by remember {
         mutableStateOf(false)
@@ -59,10 +59,10 @@ fun LoginApp(loginViewModel: LoginViewModel, innerPadding: Modifier) {
        Image(painter = painterResource(id = R.drawable.usuario)
            , contentDescription = null)
        Spacer(modifier = Modifier.height(5.dp))
-       TextField(value=state.usuario,
-           onValueChange = {loginViewModel.onUsuario(it)}
+       TextField(value=state.email,
+           onValueChange = {loginViewModel.onEmail(it)}
            ,label={
-           Text(text= stringResource(id = R.string.usuario))})
+           Text(text= stringResource(id = R.string.email))})
         Spacer(modifier = Modifier.height(5.dp))
         TextField(value=state.password,
             onValueChange = {loginViewModel.onPassword(it)}
