@@ -47,12 +47,15 @@ fun LoginApp(loginViewModel: LoginViewModel, innerPadding: Modifier) {
                 else
                     painterResource(id = R.drawable.visibility_off)
 
-    LaunchedEffect(key1 = state.mensaje)
+    LaunchedEffect(key1 = state.message)
     {
-        if (!state.mensaje.isNullOrBlank()) {
-            Toast.makeText(localContext, state.mensaje, Toast.LENGTH_LONG).show()
+        if (!state.message.isNullOrBlank()) {
+            Toast.makeText(localContext, state.message, Toast.LENGTH_LONG).show()
+            loginViewModel.restartState()
         }
     }
+
+
 
     Column(modifier=Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
         , verticalArrangement = Arrangement.Center){

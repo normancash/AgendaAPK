@@ -25,31 +25,32 @@ class LoginViewModel : ViewModel() {
     fun onLogin() {
         viewModelScope.launch{
             val result = repository.login(_state.email,_state.password)
-            if (result.isSuccess) {
-                if (result.getOrNull() == 1) {
-                    _state.copy(
-                        error = false, mensaje = "Usuario correcto"
-                    )
-                }
-                else {
-                    _state.copy(
-                        error = true,mensaje="Usuario Incorrecto"
-                    )
-                }
-            }
-            else {
-                _state.copy(
-                    error = true,mensaje="Usuario Incorrecto"
-                )
-            }
+            _state = if (result.isSuccess) {
+                        if (result.getOrNull() == 1) {
+                            _state.copy(
+                                error = false, message = "Usuario correcto")
+                        }
+                        else {
+                            _state.copy(
+                            error = true,message="Usuario Incorrecto")
+                     }
+                    }
+                    else {
+                        _state.copy(
+                            error = true,message="Problemas con la red")
+                    }
         }
+    }
+
+    fun restartState() {
+        _state = _state.copy(error = false,message = null)
     }
 
     data class LoginState(
         val email: String = "",
         val password: String = "",
         val error:Boolean=false,
-        val mensaje:String = ""
+        val message:String? = null
     )
 
 }
