@@ -6,6 +6,7 @@ import com.uam.agenda.model.ListAgenda
 import com.uam.agenda.repository.RepositoryAgenda
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class AgendaViewModel : ViewModel() {
@@ -23,10 +24,12 @@ class AgendaViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-            mstate.value = mstate.value.copy(loading = true)
-            val response = repository.apiAgenda.getAll().body() as ListAgenda
-            mstate.value = mstate.value.copy(listData = response)
-            mstate.value = mstate.value.copy(loading = false)
+            mstate.update { it.copy(loading = true) }
+            val response = repository.getAll()
+            if (response.isSuccess) {
+               mstate.update { it.copy(listData = response.getOrNull()!!) }
+            }
+            mstate.update { it.copy(loading = false) }
         }
     }
 }
