@@ -1,4 +1,4 @@
-package com.uam.agenda.compose
+package com.uam.agenda.screen
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -30,6 +30,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.uam.agenda.R
+import com.uam.agenda.compose.CustomPasswordField
+import com.uam.agenda.compose.CustomTextField
 import com.uam.agenda.viewmodel.LoginViewModel
 
 @Composable
@@ -37,15 +39,6 @@ fun LoginApp(loginViewModel: LoginViewModel, innerPadding: Modifier) {
     val localContext = LocalContext.current
 
     val state = loginViewModel._state
-
-    var passwordVisible by remember {
-        mutableStateOf(false)
-    }
-
-    val image = if (passwordVisible)
-                    painterResource(id = R.drawable.visibility)
-                else
-                    painterResource(id = R.drawable.visibility_off)
 
     LaunchedEffect(key1 = state.message)
     {
@@ -55,36 +48,21 @@ fun LoginApp(loginViewModel: LoginViewModel, innerPadding: Modifier) {
         }
     }
 
-
-
     Column(modifier=Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
         , verticalArrangement = Arrangement.Center){
        Image(painter = painterResource(id = R.drawable.usuario)
            , contentDescription = null)
        Spacer(modifier = Modifier.height(5.dp))
-       TextField(value=state.email,
-           onValueChange = {loginViewModel.onEmail(it)}
-           ,label={
-           Text(text= stringResource(id = R.string.email))})
-        Spacer(modifier = Modifier.height(5.dp))
-        TextField(value=state.password,
-            onValueChange = {loginViewModel.onPassword(it)}
-            ,label={
-                Text(text= stringResource(id = R.string.password))}
-            , keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
-            , trailingIcon = {
-                val descripcion = if (passwordVisible) "Password oculto" else "Mostrar Password"
-                IconButton(onClick = {passwordVisible = !passwordVisible }) {
-                     Icon(painter= image,descripcion)
-                }
-            }
-            , visualTransformation = if (passwordVisible) VisualTransformation.None
-                                     else PasswordVisualTransformation()
-
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        Button(onClick = {loginViewModel.onLogin()}) {
-            Text(text=stringResource(id=R.string.botonLogin))
-        }
+       CustomTextField(name = state.email
+           ,pLabel=stringResource(id = R.string.email)
+           ,onNameChange ={loginViewModel.onEmail(it)} )
+       Spacer(modifier = Modifier.height(5.dp))
+       CustomPasswordField(name = state.password
+                          ,onNameChange = {loginViewModel.onPassword(it)}
+                           ,plabel = stringResource(id = R.string.password))
+       Spacer(modifier = Modifier.height(10.dp))
+       Button(onClick = {loginViewModel.onLogin()}) {
+           Text(text=stringResource(id=R.string.botonLogin))
+       }
     }
 }

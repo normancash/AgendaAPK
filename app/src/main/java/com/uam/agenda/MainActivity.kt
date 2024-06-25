@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.uam.agenda.compose.AgendaApp
+import com.uam.agenda.screen.AgendaApp
 import com.uam.agenda.ui.theme.AgendaTheme
 import com.uam.agenda.viewmodel.LoginViewModel
 

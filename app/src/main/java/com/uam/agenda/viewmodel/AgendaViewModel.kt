@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.uam.agenda.model.ListAgenda
 import com.uam.agenda.repository.RepositoryAgenda
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -25,6 +26,7 @@ class AgendaViewModel : ViewModel() {
     init {
         viewModelScope.launch {
             mstate.update { it.copy(loading = true) }
+            delay(5000)
             val response = repository.getAll()
             if (response.isSuccess) {
                mstate.update { it.copy(listData = response.getOrNull()!!) }
