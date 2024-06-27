@@ -41,7 +41,7 @@ fun AgendaApp(padding: PaddingValues) {
 
     LazyColumn(verticalArrangement = Arrangement.Center,
        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(4.dp),
+        modifier = Modifier.padding(horizontal=4.dp),
         contentPadding = padding
     ) {
        itemsIndexed(items = collectState.listData) {index,item ->
