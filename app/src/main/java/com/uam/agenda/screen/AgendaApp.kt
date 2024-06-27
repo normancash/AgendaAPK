@@ -3,6 +3,7 @@ package com.uam.agenda.screen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -25,7 +26,7 @@ import com.uam.agenda.viewmodel.AgendaViewModel
 
 
 @Composable
-fun AgendaApp(padding: Modifier) {
+fun AgendaApp(padding: PaddingValues) {
 
     val agendaModel : AgendaViewModel = viewModel()
     val collectState by agendaModel._mstate.collectAsState()
@@ -39,7 +40,10 @@ fun AgendaApp(padding: Modifier) {
     }
 
     LazyColumn(verticalArrangement = Arrangement.Center,
-       horizontalAlignment = Alignment.CenterHorizontally) {
+       horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.padding(4.dp),
+        contentPadding = padding
+    ) {
        itemsIndexed(items = collectState.listData) {index,item ->
            CardAgenda(item)
        }
